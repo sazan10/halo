@@ -36,12 +36,7 @@ jobs:
         ./gradlew clean build -x test
     - name: Run CASR
       run: |
-        find . -name '*.jar' -exec sh -c '
-          for jarfile; do
-            echo "Processing $jarfile"
-            timeout 60s casr-java -o "$jarfile.casrep" -- java -jar "$jarfile" || echo "Failed to process $jarfile" >> error.log
-          done
-        ' sh {} +    
+        find . -name '*.java' -exec sh -c 'echo "Processing {}" && timeout 60s casr-java -o {}.casrep -- java  {}' \;
     - name: List any casr reports created
       run: |
         find . -type f -name "*.casrep"
